@@ -30,19 +30,10 @@ void PlayState::render()
 	{
 		m_gameObjects[i]->draw();
 	}
-
-	for (int i = 0; i < m_grids.size(); i++)
-	{
-		m_grids[i]->render();
-	}
 }
 
 bool PlayState::onEnter()
 {
-	Grid* g = new Grid(16, 10, 10, false);
-
-	m_grids.push_back(g);
-
 	std::cout << "Entering playstate...\n";
 	return true;
 }
@@ -55,8 +46,6 @@ bool PlayState::onExit()
 	}
 
 	m_gameObjects.clear();
-
-	TheTextureManager::Instance()->clearFromTextureMap("helicopter");
 
 	std::cout << "Exiting playstate...\n";
 	return true;

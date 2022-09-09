@@ -1,5 +1,6 @@
 #include "InputHandler.h"
 #include "Player.h"
+#include "PlayState.h"
 #include "SetupState.h"
 
 const std::string SetupState::s_setupID = "SETUP";
@@ -9,6 +10,15 @@ void SetupState::update()
 	for (int i = 0; i < m_gameObjects.size(); i++)
 	{
 		m_gameObjects[i]->update();
+	}
+
+	// Exit state when player has placed all ships
+	for (int i = 0; i < m_gameObjects.size(); i++)
+	{
+		if (dynamic_cast<Player*>(m_gameObjects[i]))
+			if (((Player*)m_gameObjects[i])->getSetupComplete())
+				// Start the game with the player and grid that was created during the setup phase
+				TheGame::Instance()->getGameStateMachine()->changeState(new PlayState(m_gameObjects[i]));
 	}
 }
 
@@ -27,6 +37,11 @@ bool SetupState::onEnter()
 
 	std::cout << "Entering setup state...\n";
 
+	TheInputHandler::Instance()->reset();
+
 	return true;
 }
-bool SetupState::onExit() { return true;  }
+bool SetupState::onExit()
+{	
+	return true;
+}

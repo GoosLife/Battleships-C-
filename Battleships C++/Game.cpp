@@ -63,11 +63,10 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	TheInputHandler::Instance()->initializeJoysticks();
 
 	// Load sprites/textures
-	TheTextureManager::Instance()->load("assets/animate_cut.png", "animate", m_pRenderer);
+	// Example: TheTextureManager::Instance()->load("assets/animate_cut.png", "animate", m_pRenderer);
 
 	// Add game object to list of game objects
-	m_gameObjects.push_back(new Player(new LoaderParams(100,100,16,18,"animate")));
-	m_gameObjects.push_back(new Enemy(new LoaderParams(0,0,16,18,"animate")));
+	// Example: m_gameObjects.push_back(new Player(new LoaderParams(100,100,16,18,"animate")));
 	
 	m_bRunning = true;
 

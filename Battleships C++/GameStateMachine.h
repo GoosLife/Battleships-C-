@@ -17,6 +17,8 @@ public:
 	void update();
 	void render();
 
+	std::string getCurrentState() { return m_gameStates.front()->getStateID(); }
+
 private:
 	// Array containing all the currently active game states.
 	std::vector<GameState*> m_gameStates;

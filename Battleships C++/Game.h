@@ -34,6 +34,7 @@ public:
 	bool running() { return m_bRunning; }
 	SDL_Renderer* getRenderer() { return m_pRenderer; }
 	GameStateMachine* getGameStateMachine() { return m_pGameStateMachine; }
+	std::string getCurrentState() { return m_pGameStateMachine->getCurrentState(); }
 
 private:
 

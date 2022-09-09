@@ -13,7 +13,8 @@ class Ship
 public:
 	Ship(ShipType t);
 
-	int getType() const { return m_size; }
+	ShipType getType() const { return m_type; }
+	int getSize() const { return m_size; }
 private:
 	ShipType m_type;
 	int m_size;

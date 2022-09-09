@@ -28,3 +28,8 @@ void Enemy::update()
 }
 
 void Enemy::clean() {}
+
+bool Enemy::initGrid()
+{
+	return false;
+}

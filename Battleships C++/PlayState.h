@@ -7,6 +7,7 @@
 class PlayState : public GameState
 {
 public:
+	PlayState(GameObject* player) { m_gameObjects.push_back(player); }
 	virtual void update();
 	virtual void render();
 
@@ -18,6 +19,5 @@ public:
 private:
 	static const std::string s_playID;
 	std::vector<GameObject*> m_gameObjects;
-	std::vector<Grid*> m_grids;
 };
 
