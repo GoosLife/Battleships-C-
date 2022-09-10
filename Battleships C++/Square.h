@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include <SDL.h>
 
-enum State
+enum class State
 {
 	eState_Empty, // Square is completely empty, no visual representation
 	eState_Hover, // User is hovering over the square, such as when ready to place a boat or strike.

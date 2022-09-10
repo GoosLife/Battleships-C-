@@ -13,5 +13,5 @@ Square::Square(int x, int y, int size)
 
 	object = nullptr;
 
-	m_state = eState_Empty;
+	m_state = State::eState_Empty;
 }

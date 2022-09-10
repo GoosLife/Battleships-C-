@@ -42,17 +42,17 @@ void Grid::render()
 
 			switch (m_squares[i][j].getState())
 			{
-			case (eState_Empty):
+			case (State::eState_Empty):
 				color.r = 51;
 				color.g = 95;
 				color.b = 196;
 				break;
-			case (eState_Hover):
+			case (State::eState_Hover):
 				color.r = 166;
 				color.g = 166;
 				color.b = 166;
 				break;
-			case (eState_Occupied):
+			case (State::eState_Occupied):
 				if (!m_hideOccupiedSquares)
 				{
 					color.r = 74;
@@ -66,12 +66,12 @@ void Grid::render()
 					color.b = 196;
 				}
 				break;
-			case (eState_Hit):
+			case (State::eState_Hit):
 				color.r = 255;
 				color.g = 0;
 				color.b = 0;
 				break;
-			case (eState_Miss):
+			case (State::eState_Miss):
 				color.r = 0;
 				color.g = 0;
 				color.b = 0;
