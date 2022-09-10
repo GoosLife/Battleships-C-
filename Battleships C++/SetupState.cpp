@@ -13,13 +13,13 @@ void SetupState::update()
 	}
 
 	// Exit state when player has placed all ships
-	for (int i = 0; i < m_gameObjects.size(); i++)
-	{
-		if (dynamic_cast<Player*>(m_gameObjects[i]))
-			if (((Player*)m_gameObjects[i])->getSetupComplete())
-				// Start the game with the player and grid that was created during the setup phase
-				TheGame::Instance()->getGameStateMachine()->changeState(new PlayState(m_gameObjects[i]));
-	}
+	//for (int i = 0; i < m_gameObjects.size(); i++)
+	//{
+	//	if (dynamic_cast<Player*>(m_gameObjects[i]))
+	//		if (((Player*)m_gameObjects[i])->getSetupComplete())
+	//			// Start the game with the player and grid that was created during the setup phase
+	//			TheGame::Instance()->getGameStateMachine()->changeState(new PlayState(m_gameObjects[i]));
+	//}
 }
 
 void SetupState::render()

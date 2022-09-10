@@ -12,8 +12,6 @@ public:
 	void update();
 	void clean();
 
-	bool getSetupComplete() const { return m_setupComplete; }
-
 private:
 	void handleInput();
 
@@ -23,24 +21,8 @@ private:
 	// Setup phase
 	Ship* m_currentShip;
 	int m_currentShipIndex;
-	bool m_isHorizontal;
-	bool m_isVertical;
-	int m_xOffset;
-	int m_yOffset;
-
-	bool m_setupComplete;
 	
-	void setupGrid();
-	void changeShipPlacementDirection();
-
-	// TODO: These 4 methods should be on the grid, not the player
-	// I will move them if I have time
-	void resetSquares();
-	bool validatePosition(int mouseX, int mouseY);
-	bool validateSquaresAreEmpty(int mouseX, int mouseY);
-	void markHoveredSquares(int mouseX, int mouseY);
-
-	void placeShip();
+	void setupInput();
 	void getNextShip();
 
 	// Play phase

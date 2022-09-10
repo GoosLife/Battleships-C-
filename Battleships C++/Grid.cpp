@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include "Ship.h"
 
 Grid::Grid() {}
 
@@ -22,7 +23,8 @@ Grid::Grid(int xPos, int yPos, int tileSize, int gridRows, int gridCols, bool hi
 
 void Grid::update()
 {
-
+	// Resets hovered squares, so that squares that are no longer hovered over become empty again.
+	resetSquares();
 }
 
 void Grid::render()
@@ -86,4 +88,70 @@ void Grid::render()
 			SDL_RenderDrawRect(TheGame::Instance()->getRenderer(), &m_squares[i][j].getRect());
 		}
 	}
+}
+
+void Grid::placeShip(Ship ship)
+{
+	if (validatePosition(ship))
+	{
+		for (int i = 0; i < ship.getSize(); i++)
+		{
+			m_squares[(i * ship.getIsHorizontal()) + ship.getXPos()][(i * ship.getIsVertical()) + ship.getYPos()].setState(State::eState_Occupied);
+		}
+	}
+}
+
+void Grid::resetSquares()
+{
+	for (int i = 0; i < m_width; i++)
+	{
+		for (int j = 0; j < m_height; j++)
+		{
+			// Squares that are empty or were hovered above before the mouse was moved away
+			// are reset to empty squares
+			if (m_squares[i][j].getState() == State::eState_Empty ||
+				m_squares[i][j].getState() == State::eState_Hover)
+			{
+				m_squares[i][j].setState(State::eState_Empty);
+			}
+		}
+	}
+}
+
+bool Grid::validatePosition(Ship ship)
+{
+	if ((ship.getIsHorizontal() &&
+		ship.getXPos() + ship.getSize() <= m_width &&
+		ship.getYPos() <= m_height) ||
+		(ship.getIsVertical() &&
+			ship.getXPos() < m_width &&
+			ship.getYPos() + ship.getSize() <= m_height))
+	{
+		// If any of the squares we want to check are occupied, we can't place the ship here.
+		if (!validateSquaresAreEmpty(ship))
+			return false;
+	}
+	// The mouse was outside of the grid, or too close to the edge to fit the whole ship. The ship can't be placed.
+	else
+	{
+		return false;
+	}
+
+	// We didn't hit any of the checks making the ships position invalid, return true
+	return true;
+}
+
+bool Grid::validateSquaresAreEmpty(Ship ship)
+{
+	// Check all squares to make sure that none of the squares for the ship are occupied
+	for (int i = 0; i < ship.getSize(); i++)
+	{
+		if (!(m_squares[(ship.getXPos())+(i * ship.getIsHorizontal())][(ship.getYPos())+(i * ship.getIsVertical())].getState() == State::eState_Empty ||
+			m_squares[(ship.getXPos())+(i * ship.getIsHorizontal())][(ship.getYPos())+(i * ship.getIsVertical())].getState() == State::eState_Hover))
+		{
+			// One of the squares was occupied - now we can't place the ship
+			return false;
+		}
+	}
+	return true;
 }

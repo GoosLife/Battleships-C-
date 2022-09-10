@@ -1,6 +1,7 @@
 #pragma once
 #include "Square.h"
 #include "Game.h"
+#include "Ship.h"
 
 class Grid
 {
@@ -10,6 +11,8 @@ public:
 
 	void update();
 	void render();
+
+	void placeShip(Ship ship);
 
 	Square** getSquares() const { return m_squares; }
 	int getTileSize() const { return m_tileSize; }
@@ -27,5 +30,9 @@ private:
 	int m_yPos;
 	int m_width;
 	int m_height;
+
+	void resetSquares();
+	bool validatePosition(Ship ship);
+	bool validateSquaresAreEmpty(Ship ship);
 };
 
