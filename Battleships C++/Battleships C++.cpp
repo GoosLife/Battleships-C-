@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 	Uint32 frameStart, frameTime;
 
 	// Try initialízing game
-	if (Game::Instance()->init("Testing", 100, 100, 640, 480, false))
+	if (Game::Instance()->init("Testing", 100, 100, 672, 480, false))
 	{
 		
 		std::cout << "Game initialized succesfully.\n";

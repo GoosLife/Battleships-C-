@@ -32,10 +32,14 @@ private:
 	
 	void setupGrid();
 	void changeShipPlacementDirection();
+
+	// TODO: These 4 methods should be on the grid, not the player
+	// I will move them if I have time
 	void resetSquares();
 	bool validatePosition(int mouseX, int mouseY);
 	bool validateSquaresAreEmpty(int mouseX, int mouseY);
 	void markHoveredSquares(int mouseX, int mouseY);
+
 	void placeShip();
 	void getNextShip();
 

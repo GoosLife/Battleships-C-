@@ -17,5 +17,13 @@ private:
 	Ship* m_currentShip;
 	int m_currentShipIndex;
 
-	bool initGrid();
+	bool m_setupComplete;
+
+	// These functions might fit better on a enemy grid class inheriting from Grid
+	// bool validatePosition();
+	bool validateSquaresAreEmpty(int xCoord, int yCoord, bool isHorizontal, bool isVertical);
+	void placeShip(int xCoord, int yCoord, bool isHorizontal, bool isVertical);
+	void getNextShip();
+
+	bool setupGrid();
 };

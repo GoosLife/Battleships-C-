@@ -34,6 +34,9 @@ void PlayState::render()
 
 bool PlayState::onEnter()
 {
+	GameObject* enemy = new Enemy(new LoaderParams(0, 0, 0, 0, ""));
+	m_gameObjects.push_back(enemy);
+
 	std::cout << "Entering playstate...\n";
 	return true;
 }

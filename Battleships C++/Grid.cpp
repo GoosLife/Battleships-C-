@@ -2,7 +2,7 @@
 
 Grid::Grid() {}
 
-Grid::Grid(int tileSize, int gridRows, int gridCols, bool hideOccupiedSquares) : m_tileSize(tileSize), m_height(gridCols), m_width(gridRows), m_hideOccupiedSquares(hideOccupiedSquares)
+Grid::Grid(int xPos, int yPos, int tileSize, int gridRows, int gridCols, bool hideOccupiedSquares) : m_xPos(xPos), m_yPos(yPos), m_tileSize(tileSize), m_height(gridCols), m_width(gridRows), m_hideOccupiedSquares(hideOccupiedSquares)
 {
 	m_squares = new Square* [gridRows];
 	
@@ -15,7 +15,7 @@ Grid::Grid(int tileSize, int gridRows, int gridCols, bool hideOccupiedSquares) :
 	{
 		for (int j = 0; j < gridCols; j++) 
 		{
-			m_squares[i][j] = Square(i * tileSize, j * tileSize, tileSize);
+			m_squares[i][j] = Square((i + xPos) * tileSize, (j + yPos) * tileSize, tileSize);
 		}
 	}
 }

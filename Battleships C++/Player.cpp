@@ -8,7 +8,7 @@
 Player::Player(const LoaderParams* pParams) : SDLGameObject(pParams) 
 {
 	// Create the players grid
-	m_grid = new Grid(32, 10, 10, false);
+	m_grid = new Grid(0, 0, 32, 10, 10, false);
 
 	// Create the players ships
 	m_ships.push_back(new Ship(eShipType_HangarShip));
@@ -71,9 +71,9 @@ void Player::handleInput()
 /// </summary>
 void Player::setupGrid()
 {
-	// Save the current mouse position to int variables, to avoid making multiple calls to the input handler
-	int mouseX = TheInputHandler::Instance()->getMousePosition()->getX();
-	int mouseY = TheInputHandler::Instance()->getMousePosition()->getY();
+	// Convert the current position of the mouse to an X and Y coordinate on the grid
+	int mouseX = (TheInputHandler::Instance()->getMousePosition()->getX() / m_grid->getTileSize()) - m_grid->getXPos();
+	int mouseY = (TheInputHandler::Instance()->getMousePosition()->getY()/  m_grid->getTileSize()) - m_grid->getYPos();
 
 	// The right mouse button changes direction of the placed ship
 	if (TheInputHandler::Instance()->getMouseButtonState(RIGHT))
@@ -150,12 +150,17 @@ bool Player::validatePosition(int mouseX, int mouseY)
 	//
 	// Dirty solution to a fix bug where during vertical placement, moving the mouse too far right will result in a crash. 
 	// I have to find a better way to check for mouse placement/input
+	//
+	// Update: This is getting messier and messier,
+	// I have no idea what the math behind this is anymore
+	// I only know that these values work
+	// and that I _NEED_ to figure out wtf I am doing here :')
 	if ((m_isHorizontal &&
-			(mouseX / m_grid->getTileSize()) + m_xOffset <= m_grid->getWidth() &&
-			(mouseY / m_grid->getTileSize()) + m_yOffset <= m_grid->getHeight()) ||
+			mouseX + m_xOffset <= m_grid->getWidth() &&
+			mouseY + m_yOffset <= m_grid->getHeight()) ||
 		(m_isVertical &&
-			(mouseX / m_grid->getTileSize()) + m_xOffset < m_grid->getWidth() &&
-			(mouseY / m_grid->getTileSize()) + m_yOffset <= m_grid->getHeight()))
+			mouseX + m_xOffset < m_grid->getWidth() &&
+			mouseY + m_yOffset <= m_grid->getHeight()))
 	{
 		// If any of the squares we want to check are occupied, we can't place the ship here.
 		if (!validateSquaresAreEmpty(mouseX, mouseY))
@@ -182,8 +187,8 @@ bool Player::validateSquaresAreEmpty(int mouseX, int mouseY)
 	// Check all squares to make sure that none of the squares for the ship are occupied
 	for (int i = 0; i < m_currentShip->getSize(); i++)
 	{
-		if (!(m_grid->getSquares()[(mouseX / m_grid->getTileSize()) + (i * m_isHorizontal)][(mouseY / m_grid->getTileSize()) + (i * m_isVertical)].getState() == State::eState_Empty ||
-			m_grid->getSquares()[(mouseX / m_grid->getTileSize()) + (i * m_isHorizontal)][(mouseY / m_grid->getTileSize()) + (i * m_isVertical)].getState() == State::eState_Hover))
+		if (!(m_grid->getSquares()[(mouseX) + (i * m_isHorizontal)][(mouseY) + (i * m_isVertical)].getState() == State::eState_Empty ||
+			m_grid->getSquares()[(mouseX) + (i * m_isHorizontal)][(mouseY) + (i * m_isVertical)].getState() == State::eState_Hover))
 		{
 			// One of the squares was occupied - now we can't place the ship
 			return false;
@@ -199,7 +204,7 @@ bool Player::validateSquaresAreEmpty(int mouseX, int mouseY)
 void Player::markHoveredSquares(int mouseX, int mouseY)
 {
 	for (int i = 0; i < m_currentShip->getSize(); i++)
-		m_grid->getSquares()[(mouseX / m_grid->getTileSize()) + (i * m_isHorizontal)][(mouseY / m_grid->getTileSize()) + (i * m_isVertical)].setState(State::eState_Hover);
+		m_grid->getSquares()[(mouseX) + (i * m_isHorizontal)][(mouseY) + (i * m_isVertical)].setState(State::eState_Hover);
 }
 
 /// <summary>
