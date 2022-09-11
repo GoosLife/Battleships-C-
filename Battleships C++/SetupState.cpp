@@ -11,8 +11,13 @@ void SetupState::update()
 	{
 		m_gameObjects[i]->update();
 	}
-
+	
 	// Exit state when player has placed all ships
+	if (((Player*)m_gameObjects[0])->getSetupComplete())
+	{
+		TheGame::Instance()->getGameStateMachine()->changeState(new PlayState(m_gameObjects[0]));
+	}
+
 	//for (int i = 0; i < m_gameObjects.size(); i++)
 	//{
 	//	if (dynamic_cast<Player*>(m_gameObjects[i]))
@@ -42,6 +47,15 @@ bool SetupState::onEnter()
 	return true;
 }
 bool SetupState::onExit()
-{	
+{
+	//for (int i = 0; i < m_gameObjects.size(); i++)
+	//{
+	//	m_gameObjects[i]->clean();
+	//}
+
+	m_gameObjects.clear();
+
+	std::cout << "Exiting setup state...\n";
+
 	return true;
 }

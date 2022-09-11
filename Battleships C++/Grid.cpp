@@ -90,7 +90,7 @@ void Grid::render()
 	}
 }
 
-void Grid::placeShip(Ship ship)
+bool Grid::placeShip(Ship ship)
 {
 	if (validatePosition(ship))
 	{
@@ -98,7 +98,10 @@ void Grid::placeShip(Ship ship)
 		{
 			m_squares[(i * ship.getIsHorizontal()) + ship.getXPos()][(i * ship.getIsVertical()) + ship.getYPos()].setState(State::eState_Occupied);
 		}
+		return true;
 	}
+
+	return false;
 }
 
 void Grid::resetSquares()

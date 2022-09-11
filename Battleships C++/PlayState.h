@@ -1,4 +1,5 @@
 #pragma once
+#include "Cursor.h"
 #include "GameObject.h"
 #include "GameState.h"
 #include "Grid.h"
@@ -19,5 +20,6 @@ public:
 private:
 	static const std::string s_playID;
 	std::vector<GameObject*> m_gameObjects;
+	Cursor m_cursor;
 };
 

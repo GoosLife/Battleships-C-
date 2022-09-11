@@ -22,6 +22,8 @@ void PlayState::update()
 	{
 		m_gameObjects[i]->update();
 	}
+
+	m_cursor.update();
 }
 
 void PlayState::render()
@@ -30,12 +32,16 @@ void PlayState::render()
 	{
 		m_gameObjects[i]->draw();
 	}
+
+	m_cursor.render();
 }
 
 bool PlayState::onEnter()
 {
 	GameObject* enemy = new Enemy(new LoaderParams(0, 0, 0, 0, ""));
 	m_gameObjects.push_back(enemy);
+
+	m_cursor = Cursor();
 
 	std::cout << "Entering playstate...\n";
 	return true;

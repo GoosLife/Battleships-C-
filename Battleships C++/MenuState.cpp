@@ -10,16 +10,6 @@ const std::string MenuState::s_menuID = "MENU";
 
 void MenuState::update() 
 {	
-	// There shouldn't ever be more than 2 gameobjects in the menu, however, sometimes there appears to be.
-	// I'm not sure why, but maybe this will catch it?
-	// I will keep an eye out for this message in the console.
-	if (m_gameObjects.size() > 2)
-	{
-		std::cout << "(from MenuState::update(): I had a crazy amount of objects in here lol\n";
-		m_gameObjects.clear();
-		return;
-	}
-
 	for (int i = 0; i < m_gameObjects.size(); i++)
 	{
 		m_gameObjects[i]->update();
@@ -28,15 +18,11 @@ void MenuState::update()
 
 void MenuState::render()
 {
-	// There shouldn't ever be more than 2 gameobjects in the menu, however, sometimes there appears to be.
-	// I'm not sure why, but maybe this will catch it?
-	// I will keep an eye out for this message in the console.
-	if (m_gameObjects.size() > 2)
-	{
-		std::cout << "(from MenuState::render(): I had a crazy amount of objects in here lol\n";
-		m_gameObjects.clear();
-		return;
-	}
+	// Calling the setup state from the menu button in this loop can sometimes cause
+	// the game to crash, as it tries to continue running through this loop after the
+	// menu has been deleted, causing a read access violation.
+	// TODO: fix
+
 
 	for (int i = 0; i < m_gameObjects.size(); i++)
 	{
@@ -61,11 +47,6 @@ bool MenuState::onEnter()
 
 	m_gameObjects.push_back(button1);
 	m_gameObjects.push_back(button2);
-
-	if (m_gameObjects.size() > 2)
-	{
-		std::cout << "WTF I put SO MANY objects in THIS LIST what the HELL is HAPPENING" << '\n';
-	}
 
 	std::cout << "Entering menu state...\n";
 

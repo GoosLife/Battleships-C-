@@ -12,6 +12,8 @@ public:
 	void update();
 	void clean();
 
+	bool getSetupComplete() { return m_setupComplete; }
+
 private:
 	void handleInput();
 
@@ -21,6 +23,7 @@ private:
 	// Setup phase
 	Ship* m_currentShip;
 	int m_currentShipIndex;
+	bool m_setupComplete;
 	
 	void setupInput();
 	void getNextShip();

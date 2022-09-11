@@ -12,7 +12,7 @@ public:
 	void update();
 	void render();
 
-	void placeShip(Ship ship);
+	bool placeShip(Ship ship);
 
 	Square** getSquares() const { return m_squares; }
 	int getTileSize() const { return m_tileSize; }
@@ -21,6 +21,14 @@ public:
 	int getWidth() const { return m_width; }
 	int getHeight() const { return m_height; }
 
+	~Grid()
+	{
+		for (int i = 0; i < m_height; i++)
+		{
+			delete m_squares[i];
+		} 
+		delete m_squares;
+	};
 private:
 	int m_tileSize;
 	bool m_hideOccupiedSquares;
