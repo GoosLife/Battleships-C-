@@ -12,7 +12,11 @@ public:
 	void update();
 	void clean();
 
+	void beShotAt();
+
 	bool getSetupComplete() { return m_setupComplete; }
+	bool getIsMyTurn() { return m_isMyTurn; }
+	void setIsMyTurn(bool value) { m_isMyTurn = value; }
 
 private:
 	void handleInput();
@@ -29,5 +33,7 @@ private:
 	void getNextShip();
 
 	// Play phase
+	int m_lives;
+	bool m_isMyTurn;
 };
 

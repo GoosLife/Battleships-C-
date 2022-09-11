@@ -20,6 +20,10 @@ public:
 	int getYPos() const { return m_yPos; }
 	int getWidth() const { return m_width; }
 	int getHeight() const { return m_height; }
+	State getSquareState(int x, int y);
+
+	bool shootSquare(int x, int y); // Get a squares state from an x and y coordinate
+
 
 	~Grid()
 	{

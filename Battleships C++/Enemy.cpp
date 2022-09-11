@@ -1,6 +1,7 @@
+#include "Enemy.h"
+#include "InputHandler.h"
 #include <SDL.h>
 
-#include "Enemy.h"
 
 Enemy::Enemy(const LoaderParams* pParams) : SDLGameObject(pParams)
 {
@@ -19,6 +20,18 @@ Enemy::Enemy(const LoaderParams* pParams) : SDLGameObject(pParams)
 
 	m_setupComplete = false;
 
+	m_lives = 0;
+
+	for (int i = 0; i < m_ships.size(); i++)
+	{
+		for (int j = 0; j < m_ships[i]->getSize(); j++)
+		{
+			m_lives++;
+		}
+	}
+
+	m_isMyTurn = false;
+
 	// Place ships on computer's grid.
 	setupGrid();
 }
@@ -35,6 +48,62 @@ void Enemy::update()
 
 void Enemy::clean() {}
 
+bool Enemy::beShotAt()
+{
+	if (hasBeenShotAt())
+	{
+		m_isMyTurn = true;
+
+		if (m_lives == 0)
+		{
+			std::cout << "All enemy ships were destroyed. Player wins\n";
+		}
+
+		return true;
+	}
+	return false;
+}
+
+/// <summary>
+/// Takes input and checks if a valid shot has been taken at the enemy grid
+/// </summary>
+bool Enemy::hasBeenShotAt()
+{
+	if (TheInputHandler::Instance()->getMouseButtonState(LEFT))
+	{
+		int xPos = (TheInputHandler::Instance()->getMousePosition()->getX() / 32);
+		int yPos = (TheInputHandler::Instance()->getMousePosition()->getY() / 32);
+
+		TheInputHandler::Instance()->reset(); // Reset mouse button states to make sure we only check for clicks.
+
+		// Get coordinate relative to the grids position
+		xPos = xPos - m_grid->getXPos();
+		yPos = yPos - m_grid->getYPos();
+
+		// Check that coordinate is valid
+		if (xPos >= 0 && xPos < m_grid->getWidth() &&
+			yPos >= 0 && yPos < m_grid->getHeight())
+		{
+			// Shots won't register on squares that have already been shot at
+			if (m_grid->getSquareState(xPos, yPos) == State::eState_Hit ||
+				m_grid->getSquareState(xPos, yPos) == State::eState_Miss)
+			{
+				return false;
+			}
+
+			if (m_grid->shootSquare(xPos, yPos))
+			{
+				m_lives--;
+				std::cout << "Enemy lives left: " << m_lives << '\n';
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// TODO: This is a horrible mess that should be re-done
 bool Enemy::setupGrid()
 {
 	/*
@@ -44,6 +113,9 @@ bool Enemy::setupGrid()
 		Make sure no squares are already occupied
 		Place the ship
 	*/
+
+	// Generate random seed for ship placement
+	srand(time(NULL));
 
 	for (int i = 0; i < m_ships.size(); i++)
 	{

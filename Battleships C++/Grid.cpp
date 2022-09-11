@@ -74,9 +74,9 @@ void Grid::render()
 				color.b = 0;
 				break;
 			case (State::eState_Miss):
-				color.r = 0;
-				color.g = 0;
-				color.b = 0;
+				color.r = 255;
+				color.g = 255;
+				color.b = 255;
 				break;
 
 			}
@@ -157,4 +157,36 @@ bool Grid::validateSquaresAreEmpty(Ship ship)
 		}
 	}
 	return true;
+}
+
+/// <summary>
+/// Attempt to shoot at a coordinate on the grid.
+/// </summary>
+/// <param name="x"></param>
+/// <param name="y"></param>
+/// <returns>Returns true if the target square was occupied, otherwise returns false.</returns>
+bool Grid::shootSquare(int x, int y)
+{
+	switch (m_squares[x][y].getState())
+	{
+	case State::eState_Occupied:
+		m_squares[x][y].setState(State::eState_Hit);
+		return true;
+
+	case State::eState_Empty:
+		m_squares[x][y].setState(State::eState_Miss);
+	default:
+		return false;
+	}
+}
+
+/// <summary>
+/// Get the current state of a specific square in the grid.
+/// </summary>
+/// <param name="x"></param>
+/// <param name="y"></param>
+/// <returns></returns>
+State Grid::getSquareState(int x, int y)
+{
+	return m_squares[x][y].getState();
 }

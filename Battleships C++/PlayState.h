@@ -1,14 +1,15 @@
 #pragma once
-#include "Cursor.h"
+#include "Enemy.h"
 #include "GameObject.h"
 #include "GameState.h"
 #include "Grid.h"
+#include "Player.h"
 #include <vector>
 
 class PlayState : public GameState
 {
 public:
-	PlayState(GameObject* player) { m_gameObjects.push_back(player); }
+	PlayState(Player* player) : m_player(player) {}
 	virtual void update();
 	virtual void render();
 
@@ -20,6 +21,8 @@ public:
 private:
 	static const std::string s_playID;
 	std::vector<GameObject*> m_gameObjects;
-	Cursor m_cursor;
+
+	Player* m_player;
+	Enemy* m_enemy;
 };
 

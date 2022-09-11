@@ -18,30 +18,31 @@ void PlayState::update()
 		TheGame::Instance()->getGameStateMachine()->pushState(new PauseState());
 	}
 
-	for (int i = 0; i < m_gameObjects.size(); i++)
+	m_player->update();
+	m_enemy->update();
+
+	if (m_player->getIsMyTurn())
 	{
-		m_gameObjects[i]->update();
+		if (m_enemy->beShotAt())
+			m_player->setIsMyTurn(false);
 	}
 
-	m_cursor.update();
+	if (m_enemy->getIsMyTurn())
+	{
+		m_player->beShotAt();
+		m_enemy->setIsMyTurn(false);
+	}
 }
 
 void PlayState::render()
 {
-	for (int i = 0; i < m_gameObjects.size(); i++)
-	{
-		m_gameObjects[i]->draw();
-	}
-
-	m_cursor.render();
+	m_player->draw();
+	m_enemy->draw();
 }
 
 bool PlayState::onEnter()
 {
-	GameObject* enemy = new Enemy(new LoaderParams(0, 0, 0, 0, ""));
-	m_gameObjects.push_back(enemy);
-
-	m_cursor = Cursor();
+	m_enemy = new Enemy(new LoaderParams(0, 0, 0, 0, ""));
 
 	std::cout << "Entering playstate...\n";
 	return true;
@@ -49,12 +50,8 @@ bool PlayState::onEnter()
 
 bool PlayState::onExit()
 {
-	for (int i = 0; i < m_gameObjects.size(); i++)
-	{
-		m_gameObjects[i]->clean();
-	}
-
-	m_gameObjects.clear();
+	delete m_player;
+	delete m_enemy;
 
 	std::cout << "Exiting playstate...\n";
 	return true;

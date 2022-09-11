@@ -15,7 +15,7 @@ void SetupState::update()
 	// Exit state when player has placed all ships
 	if (((Player*)m_gameObjects[0])->getSetupComplete())
 	{
-		TheGame::Instance()->getGameStateMachine()->changeState(new PlayState(m_gameObjects[0]));
+		TheGame::Instance()->getGameStateMachine()->changeState(new PlayState((Player*)m_gameObjects[0]));
 	}
 
 	//for (int i = 0; i < m_gameObjects.size(); i++)

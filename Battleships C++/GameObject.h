@@ -9,7 +9,7 @@ public:
 	virtual void update() = 0;
 	virtual void clean() = 0;
 
-protected:
+protected:	
 	GameObject(const LoaderParams* pParams) {}
 	virtual ~GameObject() {}
 };
